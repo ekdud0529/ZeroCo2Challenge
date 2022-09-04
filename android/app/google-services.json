@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "908900197655",
+    "project_id": "zeroco2challenge-b25e0",
+    "storage_bucket": "zeroco2challenge-b25e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908900197655:android:21a0a2058f7d0905880352",
+        "android_client_info": {
+          "package_name": "com.example.zeroco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908900197655-0oaofltm8c52sndensh0sudol0iup2nv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuuAy5W8G6U6PXQ-qrM5fNJkd5c295mfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908900197655-0oaofltm8c52sndensh0sudol0iup2nv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
