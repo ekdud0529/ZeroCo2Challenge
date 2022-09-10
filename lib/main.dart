@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:zeroco/pages/navpages/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +29,10 @@ class MyApp extends StatelessWidget {
 class accountPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: const Color(0xfff2a900), // Color for Android
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       body: Authentication(),
     );
