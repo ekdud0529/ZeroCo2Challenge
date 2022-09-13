@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:zeroco/pages/navpages/search_page.dart';
-
-import 'bar_item_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'community_page.dart';
 import 'home_page.dart';
 import 'my_page.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
-
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -17,7 +15,7 @@ class _MainPageState extends State<MainPage> {
   List pages = [
     // Home은 default 페이지
     HomePage(),
-    BarItemPage(),
+    community(),
     SearchPage(),
     MyPage()
   ];
@@ -39,7 +37,7 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: const Color(0xfff2a900),
         onTap : onTap,
         currentIndex: currentIndex,
-        selectedItemColor: Colors.black54,
+        selectedItemColor: Color(0xff60584C),
         unselectedItemColor:Colors.white,
         showUnselectedLabels: false,
         showSelectedLabels: false,
