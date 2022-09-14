@@ -41,6 +41,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Event> _getEventsfromDay(DateTime date) {
+    ///
+    /// DB에서 챌린지 추가한 날짜 받아오기 -> future<list<challenge>>
+    /// sql에서 가져온 날짜, challenge mapping
+
+    ///
+    print("Im in _getEventsfromDay");
     return selectedEvents[date] ?? [];
   }
 
@@ -55,7 +61,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("CO2 Challenge"),
+        backgroundColor: const Color(0xfff2a900),
+        title: Text("Challenge"),
         centerTitle: true,
       ),
       body: Column(
@@ -79,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                 selectedDay = selectDay;
                 focusedDay = focusDay;
               });
-              print(focusedDay);
+              // print(focusedDay);
             },
             selectedDayPredicate: (DateTime date) {
               return isSameDay(selectedDay, date);
@@ -87,18 +94,19 @@ class _HomePageState extends State<HomePage> {
 
             eventLoader: _getEventsfromDay,
 
+
             //To style the Calendar
             calendarStyle: CalendarStyle(
               isTodayHighlighted: true,
               selectedDecoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color(0xff60584C),
                 // color: (255, 188, 80),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               selectedTextStyle: TextStyle(color: Colors.white),
               todayDecoration: BoxDecoration(
-                color: Colors.purpleAccent,
+                color: const Color(0xfff2a900),
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(10.0),
               ),
@@ -116,7 +124,7 @@ class _HomePageState extends State<HomePage> {
               titleCentered: true,
               formatButtonShowsNext: false,
               formatButtonDecoration: BoxDecoration(
-                color: Colors.blue,
+                color: Color(0xff60584C),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               formatButtonTextStyle: TextStyle(
@@ -129,37 +137,81 @@ class _HomePageState extends State<HomePage> {
             child:FutureBuilder<List<Challenge>>(
                 future: DatabaseHelper.instance.getChallenge(),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<Challenge>> snapshot){
-                  if(!snapshot.hasData){
-                    return Center(child:Text('Loading'));
-                  }
+                  AsyncSnapshot<List<Challenge>> snapshot){
+                    if(!snapshot.hasData){
+                      return Center(child:Text('Loading'));
+                    }
+                    return snapshot.data!.isEmpty
+                        ? Center(child:Text('챌린지에 참여해보세요!'))
+                        : ListView( // 챌린지 리스트
+                      children: snapshot.data!.map((challenge){
 
-                  return snapshot.data!.isEmpty
-                      ? Center(child:Text('챌린지에 참여해보세요!'))
-                      : ListView( // 챌린지 리스트
-                    children: snapshot.data!.map((challenge){
-                      return Center(
-                        child:ListTile(
-                          title:Text(challenge.challenge),
+                        /// sqlite datetime 저장 불가능 -> 다시 DateTime으로 parsing
+                        DateTime sqlDate = DateTime.parse(challenge.date);
 
-                        ),
-                      );
-                    }).toList(),
-                  );
-                }),
+                        return Card(
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                    width: 100,
+                                    height: 50,
+                                    child: Center(
+                                      child: Text(challenge.challenge,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: const Color(0xff60584C),
+                                        ),
+                                      ),
+                                    )
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.all(30),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          //width: MediaQuery.of(context).size.width * 0.7,
+
+                                          child: Text(
+                                            challenge.date,
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Colors.grey),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                )
+                              ],
+                            )
+                        );
+
+
+                        return Center(
+                          child:ListTile(
+                            title:Text(challenge.challenge),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }),
           ),
 
           ///
-          ..._getEventsfromDay(selectedDay).map(
-                (Event event) => ListTile(
-              title: Text(event.title),
-            ),
-          ),
+          // ..._getEventsfromDay(selectedDay).map(
+          //       (Event event) => ListTile(
+          //     title: Text(event.title),
+          //   ),
+          // ),
+          ///
         ],
       ),
 
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Color(0xfff2a900),
+
         onPressed: () => showDialog(
+
           context: context,
           builder: (context) => AlertDialog(
             title: Text("Today's Challenge"),
@@ -174,11 +226,24 @@ class _HomePageState extends State<HomePage> {
               TextButton(
                 child: Text("Ok"),
                 onPressed: () async {
-                  print("push btn");
+
+
                   // 텍스트 필드가 비었을 때
                   if (_eventController.text.isEmpty) {
 
                   } else { // challenge 입력
+                    /// 마커만들 때 쓰일 Map<DateTime, List<Event>> 원소 추가 코드
+                    if (selectedEvents[selectedDay] != null) {
+                      selectedEvents[selectedDay]?.add(
+                        Event(title: _eventController.text),
+                      );
+                    } else {
+                      selectedEvents[selectedDay] = [
+                        Event(title: _eventController.text)
+                      ];
+                    }
+
+                    ///
                     // 로그인한 사용자정보
                     User? user = FirebaseAuth.instance.currentUser;
                     for(final providerProfile in user!.providerData){
@@ -188,6 +253,7 @@ class _HomePageState extends State<HomePage> {
                     }
                     // 현재 날짜
                     final dateStr = DateFormat('yyyy-MM-dd').format(selectedDay);
+                    // realtime firebase
                     await ref
                         .child(name)
                         .set(_eventController.text)
@@ -208,7 +274,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        label: Text("Add Challenge"),
+        label: Text("🌱"),
         icon: Icon(Icons.add),
       ),
     );
@@ -269,6 +335,8 @@ class DatabaseHelper{
     List<Challenge> challengeList = challenges.isNotEmpty
         ? challenges.map((c)=>Challenge.fromMap(c)).toList()
         :[];
+    /// selectedEvents : Map<Datetime, List<Event>>
+    ///
     return challengeList;
   }
 

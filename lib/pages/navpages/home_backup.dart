@@ -171,9 +171,7 @@ class _HomePageState extends State<HomePage> {
                   }
                   Navigator.pop(context);
                   _eventController.clear();
-
                   setState((){});
-
                   return;
                 },
               ),
