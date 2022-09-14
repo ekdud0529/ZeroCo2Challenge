@@ -30,6 +30,8 @@ class _HomePageState extends State<HomePage> {
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
   DatabaseReference ref = FirebaseDatabase.instance.ref("performance");
+  List<Challenge> makeList = [];
+
 
   TextEditingController _eventController = TextEditingController(); // 텍스트 필드에서 text 가져오기
   String name = "";
@@ -44,9 +46,15 @@ class _HomePageState extends State<HomePage> {
     ///
     /// DB에서 챌린지 추가한 날짜 받아오기 -> future<list<challenge>>
     /// sql에서 가져온 날짜, challenge mapping
+    // List<Challenge> = DatabaseHelper.instance.getChallenge();
+    //selectedEvents.clear();
+    // Future<List<Challenge>> list = DatabaseHelper.instance.getChallenge();
+    //List<Challenge> list = await DatabaseHelper.instance.getChallenge();
+    // List<String> isString2 = ['apple','banana'];
+    // AsyncSnapshot<List<Challenge>> snapshot;
 
-    ///
-    print("Im in _getEventsfromDay");
+
+    // print("Im in _getEventsfromDay");
     return selectedEvents[date] ?? [];
   }
 
@@ -144,49 +152,56 @@ class _HomePageState extends State<HomePage> {
                     return snapshot.data!.isEmpty
                         ? Center(child:Text('챌린지에 참여해보세요!'))
                         : ListView( // 챌린지 리스트
+
                       children: snapshot.data!.map((challenge){
 
                         /// sqlite datetime 저장 불가능 -> 다시 DateTime으로 parsing
                         DateTime sqlDate = DateTime.parse(challenge.date);
+                        ///
+
+                        ///
+                        ///
 
                         return Card(
-                            child: Row(
+                            child: Column(
                               children: [
-                                SizedBox(
-                                    width: 100,
-                                    height: 50,
-                                    child: Center(
-                                      child: Text(challenge.challenge,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: const Color(0xff60584C),
-                                        ),
-                                      ),
-                                    )
-                                ),
                                 Padding(
-                                    padding: const EdgeInsets.all(30),
-                                    child: Column(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Row(
                                       children: [
                                         SizedBox(
-                                          //width: MediaQuery.of(context).size.width * 0.7,
-
-                                          child: Text(
-                                            challenge.date,
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.grey),
-                                          ),
-                                        )
+                                            width: 200,
+                                            height: 50,
+                                            child: Center(
+                                              child: Text(challenge.challenge,
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                  color: const Color(0xff60584C),
+                                                ),
+                                              ),
+                                            )
+                                        ),
                                       ],
                                     )
+                                ),
+
+                                Container(
+                                  // width: MediaQuery.of(context).size.width * 0.7,
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      challenge.date,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.grey),
+                                    ),
+                                  ),
+
                                 )
                               ],
                             )
                         );
-
-
                         return Center(
                           child:ListTile(
                             title:Text(challenge.challenge),
@@ -337,6 +352,7 @@ class DatabaseHelper{
         :[];
     /// selectedEvents : Map<Datetime, List<Event>>
     ///
+
     return challengeList;
   }
 
