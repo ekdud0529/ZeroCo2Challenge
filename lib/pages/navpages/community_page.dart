@@ -32,9 +32,18 @@ class community extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-
-    print(_listKeys[0]);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('오늘의 챌린지',
+          style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 25,
+          ),
+        ),
+        backgroundColor: const Color(0xfff2a900),
+        centerTitle: true,
+        toolbarHeight: 80,
+      ),
       body: ListView.builder(
         itemCount: _listKeys.length,
         itemBuilder: (context, index){

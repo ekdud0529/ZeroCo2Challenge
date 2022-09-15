@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zeroco/pages/navpages/search_page.dart';
+import 'package:zeroco/pages/navpages/guide_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'community_page.dart';
 import 'home_page.dart';
@@ -16,7 +16,7 @@ class _MainPageState extends State<MainPage> {
     // Home은 default 페이지
     HomePage(),
     community(),
-    SearchPage(),
+    GuidePage(),
     MyPage()
   ];
 
