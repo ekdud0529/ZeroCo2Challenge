@@ -22,6 +22,7 @@ void showPopup(_performList, context){
                       width: MediaQuery.of(context).size.width * 0.7,
                       child: Center(
                         child: Text(_performList[index],
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,

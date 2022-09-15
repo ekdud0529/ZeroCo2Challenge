@@ -1,4 +1,4 @@
-name: zeroco
+name: zeroco2
 description: Zero Co2 Challenge App
 
 # The following line prevents the package from being accidentally published to
@@ -99,8 +99,14 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
+flutter_native_splash:
+  color: "#f2a900"
+  image: "assets/icon.png"
+  fullscreen: true
+
 # 만드는 명령어 flutter pub run flutter_launcher_icons:main
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon.png"
+
