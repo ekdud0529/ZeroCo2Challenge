@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zeroco/pages/navpages/guide_page.dart';
+import 'guide_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'community_page.dart';
+import 'guide_page.dart';
 import 'home_page.dart';
 import 'my_page.dart';
 

@@ -1,14 +1,9 @@
-
-import 'package:flutter/cupertino.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-
-import 'dart:io';
+import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:zeroco/pages/navpages/event.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/foundation.dart';
@@ -22,7 +17,6 @@ main(){
 }
 // //
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -32,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Map<DateTime, List<Event>> selectedEvents;
+
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
@@ -48,19 +43,18 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void _fetchEvents() async{
+    // sharedpreferences has no option to save the map directly
+    // selectedEvents.clear();
+    var prefs = await SharedPreferences.getInstance();
+    String endcodedMap = json.encode(selectedEvents);
+    prefs.setString('challengeDate', endcodedMap);
+    String? encodedMap = prefs.getString('challengeData');
+    selectedEvents = json.decode(encodedMap!);
+  }
+
   List<Event> _getEventsfromDay(DateTime date) {
-    ///
-    /// DB에서 챌린지 추가한 날짜 받아오기 -> future<list<challenge>>
-    /// sql에서 가져온 날짜, challenge mapping
-    // List<Challenge> = DatabaseHelper.instance.getChallenge();
-    //selectedEvents.clear();
-    // Future<List<Challenge>> list = DatabaseHelper.instance.getChallenge();
-    //List<Challenge> list = await DatabaseHelper.instance.getChallenge();
-    // List<String> isString2 = ['apple','banana'];
-    // AsyncSnapshot<List<Challenge>> snapshot;
-
-
-    // print("Im in _getEventsfromDay");
+    _fetchEvents();
     return selectedEvents[date] ?? [];
   }
 
@@ -151,71 +145,80 @@ class _HomePageState extends State<HomePage> {
             child:FutureBuilder<List<Challenge>>(
                 future: DatabaseHelper.instance.getChallenge(),
                 builder: (BuildContext context,
-                  AsyncSnapshot<List<Challenge>> snapshot){
-                    if(!snapshot.hasData){
-                      return Center(child:Text('Loading'));
-                    }
-                    return snapshot.data!.isEmpty
-                        ? Center(child:Text('챌린지에 참여해보세요!'))
-                        : ListView( // 챌린지 리스트
+                    AsyncSnapshot<List<Challenge>> snapshot){
+                  if(!snapshot.hasData){
+                    return Center(child:Text('Loading'));
+                  }
+                  return snapshot.data!.isEmpty
+                      ? Center(child:Text('챌린지에 참여해보세요!'))
+                      : ListView( // 챌린지 리스트
 
-                      children: snapshot.data!.map((challenge){
+                    children: snapshot.data!.map((challenge){
 
-                        /// sqlite datetime 저장 불가능 -> 다시 DateTime으로 parsing
-                        DateTime sqlDate = DateTime.parse(challenge.date);
-                        ///
+                      /// sqlite datetime 저장 불가능 -> 다시 DateTime으로 parsing
+                      DateTime sqlDate = DateTime.parse(challenge.date);
+                      ///
+                      ///
 
-                        ///
-                        ///
-
-                        return Card(
-                            child: Column(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                            width: 200,
-                                            height: 50,
-                                            child: Center(
-                                              child: Text(challenge.challenge,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: const Color(0xff60584C),
-                                                ),
+                      // if (selectedEvents[sqlDate] != null) {
+                      //   selectedEvents[sqlDate]?.add(
+                      //     Event(title: _eventController.text),
+                      //   );
+                      // } else {
+                      //   selectedEvents[sqlDate] = [
+                      //     Event(title: _eventController.text)
+                      //   ];
+                      // }
+                      ///
+                      // _fetchEvents(); // add to shared preferences
+                      return Card(
+                          child: Column(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                          width: 200,
+                                          height: 50,
+                                          child: Center(
+                                            child: Text(challenge.challenge,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: const Color(0xff60584C),
                                               ),
-                                            )
-                                        ),
-                                      ],
-                                    )
+                                            ),
+                                          )
+                                      ),
+                                    ],
+                                  )
+                              ),
+
+                              Container(
+                                // width: MediaQuery.of(context).size.width * 0.7,
+                                child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    challenge.date,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.grey),
+                                  ),
                                 ),
 
-                                Container(
-                                  // width: MediaQuery.of(context).size.width * 0.7,
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Text(
-                                      challenge.date,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey),
-                                    ),
-                                  ),
-
-                                )
-                              ],
-                            )
-                        );
-                        return Center(
-                          child:ListTile(
-                            title:Text(challenge.challenge),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  }),
+                              )
+                            ],
+                          )
+                      );
+                      return Center(
+                        child:ListTile(
+                          title:Text(challenge.challenge),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }),
           ),
 
           ///
@@ -254,6 +257,7 @@ class _HomePageState extends State<HomePage> {
 
                   } else { // challenge 입력
                     /// 마커만들 때 쓰일 Map<DateTime, List<Event>> 원소 추가 코드
+                    ////////////////////////////////////////////////////////////
                     if (selectedEvents[selectedDay] != null) {
                       selectedEvents[selectedDay]?.add(
                         Event(title: _eventController.text),
@@ -263,8 +267,8 @@ class _HomePageState extends State<HomePage> {
                         Event(title: _eventController.text)
                       ];
                     }
-
-                    ///
+                    // _fetchEvents();
+                    ///////////////
                     // 로그인한 사용자정보
                     User? user = FirebaseAuth.instance.currentUser;
                     for(final providerProfile in user!.providerData){
@@ -300,9 +304,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-}
-
 }
 
 class Challenge{
@@ -360,7 +361,7 @@ class DatabaseHelper{
         ? challenges.map((c)=>Challenge.fromMap(c)).toList()
         :[];
     /// selectedEvents : Map<Datetime, List<Event>>
-    ///
+
 
     return challengeList;
   }
@@ -371,4 +372,3 @@ class DatabaseHelper{
   }
 
 }
-
