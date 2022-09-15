@@ -1,3 +1,8 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +21,7 @@ main(){
   runApp(HomePage());
 }
 // //
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -294,6 +300,9 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+}
+
 }
 
 class Challenge{

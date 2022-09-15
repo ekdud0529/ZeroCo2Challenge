@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:zeroco/pages/navpages/search_page.dart';
-
-import 'bar_item_page.dart';
+import 'package:zeroco/pages/navpages/guide_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'community_page.dart';
 import 'home_page.dart';
 import 'my_page.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
-
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -17,8 +15,8 @@ class _MainPageState extends State<MainPage> {
   List pages = [
     // Home은 default 페이지
     HomePage(),
-    BarItemPage(),
-    SearchPage(),
+    community(),
+    GuidePage(),
     MyPage()
   ];
 
@@ -36,11 +34,11 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         unselectedFontSize: 0,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xfff2a900),
         onTap : onTap,
         currentIndex: currentIndex,
-        selectedItemColor: Colors.black54,
-        unselectedItemColor:Colors.grey.withOpacity(0.5),
+        selectedItemColor: Color(0xff60584C),
+        unselectedItemColor:Colors.white,
         showUnselectedLabels: false,
         showSelectedLabels: false,
         elevation: 0,
