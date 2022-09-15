@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -10,12 +8,12 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-// //
+//
 main(){
   WidgetsFlutterBinding.ensureInitialized();
   runApp(HomePage());
 }
-// //
+//
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,18 +41,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void _fetchEvents() async{
-    // sharedpreferences has no option to save the map directly
-    // selectedEvents.clear();
-    var prefs = await SharedPreferences.getInstance();
-    String endcodedMap = json.encode(selectedEvents);
-    prefs.setString('challengeDate', endcodedMap);
-    String? encodedMap = prefs.getString('challengeData');
-    selectedEvents = json.decode(encodedMap!);
-  }
-
   List<Event> _getEventsfromDay(DateTime date) {
-    _fetchEvents();
+    //_fetchEvents();
     return selectedEvents[date] ?? [];
   }
 
@@ -159,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                       DateTime sqlDate = DateTime.parse(challenge.date);
                       ///
                       ///
-
+                      //////////////////////////////////////////
                       // if (selectedEvents[sqlDate] != null) {
                       //   selectedEvents[sqlDate]?.add(
                       //     Event(title: _eventController.text),
@@ -169,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                       //     Event(title: _eventController.text)
                       //   ];
                       // }
-                      ///
+                      ////////////////////////////////////////
                       // _fetchEvents(); // add to shared preferences
                       return Card(
                           child: Column(
@@ -267,8 +255,7 @@ class _HomePageState extends State<HomePage> {
                         Event(title: _eventController.text)
                       ];
                     }
-                    // _fetchEvents();
-                    ///////////////
+
                     // 로그인한 사용자정보
                     User? user = FirebaseAuth.instance.currentUser;
                     for(final providerProfile in user!.providerData){
@@ -277,6 +264,7 @@ class _HomePageState extends State<HomePage> {
                       name = currentUser![0];
                     }
                     // 현재 날짜
+                    // final dateStr = DateFormat('yyyy-MM-dd HH:mm:ss.SSS').format(selectedDay);
                     final dateStr = DateFormat('yyyy-MM-dd').format(selectedDay);
                     // realtime firebase
                     await ref

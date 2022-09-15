@@ -16,8 +16,8 @@ class community extends StatelessWidget {
       values.forEach((key, value) {
         _listKeys.add(key.toString());
         _listValues.add(value.toString());
-        print(key);
-        print(value);
+        // print(key);
+        // print(value);
       });
     }
     else {
