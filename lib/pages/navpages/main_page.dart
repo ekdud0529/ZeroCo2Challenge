@@ -32,23 +32,24 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: Colors.white,
       body : pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        unselectedFontSize: 0,
+        selectedFontSize: 15,
+        unselectedFontSize: 12,
         type: BottomNavigationBarType.fixed,
         backgroundColor: const Color(0xfff2a900),
         onTap : onTap,
         currentIndex: currentIndex,
         selectedItemColor: Color(0xff60584C),
         unselectedItemColor:Colors.white,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
+        showUnselectedLabels: true,
+        showSelectedLabels: true,
         elevation: 0,
 
         //List of item (페이지 종류)
         items:[
-          BottomNavigationBarItem(label:"Home", icon: Icon(Icons.apps)),
-          BottomNavigationBarItem(label:"Bar", icon: Icon(Icons.bar_chart_sharp)),
-          BottomNavigationBarItem(label:"Search", icon: Icon(Icons.search)),
-          BottomNavigationBarItem(label:"My", icon: Icon(Icons.person)),
+          BottomNavigationBarItem(label:"Calendar", icon: Icon(Icons.today), ),
+          BottomNavigationBarItem(label:"Community", icon: Icon(Icons.supervisor_account)),
+          BottomNavigationBarItem(label:"Guide", icon: Icon(Icons.article)),
+          BottomNavigationBarItem(label:"MyPage", icon: Icon(Icons.person)),
         ]
       ),
     );
