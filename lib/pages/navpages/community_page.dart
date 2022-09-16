@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,9 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 List<String> _listKeys = [];
 List<String> _listValues = [];
 
-class community extends StatelessWidget {
-  final ref = FirebaseDatabase.instance.ref('performance').get().then((snapshot){
-    if (snapshot.exists){
+Future<void> getData(ref) async {
+  await ref.get().then((snapshot){
+    if (snapshot.exists) {
       _listValues.clear();
       _listKeys.clear();
       Map<dynamic, dynamic> values = snapshot.value as Map;
@@ -20,18 +18,14 @@ class community extends StatelessWidget {
         print(value);
       });
     }
-    else {
-      print("Can't get datas.");
-      Fluttertoast.showToast(msg: "Can't get datas.",
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.grey,
-          fontSize: 20,
-          textColor: Colors.white,
-          toastLength: Toast.LENGTH_SHORT);
-    }
   });
+}
+
+class community extends StatelessWidget {
+  final ref = FirebaseDatabase.instance.ref('performance');
   @override
   Widget build(BuildContext context) {
+    getData(ref);
     return Scaffold(
       appBar: AppBar(
         title: const Text('오늘의 챌린지',
@@ -68,7 +62,7 @@ class community extends StatelessWidget {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.7,
+                                width: MediaQuery.of(context).size.width * 0.6,
                                 child: Text(
                                   _listValues[index],
                                   style: const TextStyle(

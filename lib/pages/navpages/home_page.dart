@@ -1,19 +1,13 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:zeroco/pages/navpages/event.dart';
+import 'event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 // //
 main(){
@@ -300,9 +294,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-}
-
 }
 
 class Challenge{
