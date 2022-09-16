@@ -1,38 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 List<String> _listKeys = [];
 List<String> _listValues = [];
 
-Future<void> getData(ref) async {
-  await ref.get().then((snapshot){
-    if (snapshot.exists) {
+void getData() async {
+  DatabaseReference ref = FirebaseDatabase.instance.ref('performance');
+  await ref.onValue.listen((DatabaseEvent event){
+    if (event.snapshot.exists) {
       _listValues.clear();
       _listKeys.clear();
-      Map<dynamic, dynamic> values = snapshot.value as Map;
+      Map<dynamic, dynamic> values = event.snapshot.value as Map;
       values.forEach((key, value) {
         _listKeys.add(key.toString());
         _listValues.add(value.toString());
-        // print(key);
-        // print(value);
+        print(key);
+        print(value);
       });
     }
   });
 }
 
 class community extends StatelessWidget {
-  final ref = FirebaseDatabase.instance.ref('performance');
-
   @override
   Widget build(BuildContext context) {
-    Fluttertoast.showToast(msg: '시간이 소요될 수 있습니다.',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.grey,
-        fontSize: 20,
-        textColor: Colors.white,
-        toastLength: Toast.LENGTH_SHORT);
-    getData(ref);
+    getData();
     return Scaffold(
       appBar: AppBar(
         title: const Text('오늘의 챌린지',

@@ -113,12 +113,10 @@ flutter:
 
 flutter_native_splash:
   color: "#f2a900"
-  backgound_image: "assets/icon.png"
+  image: "assets/icon.png"
   fullscreen: true
 
-# 만드는 명령어 flutter pub run flutter_launcher_icons:main
 flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon.png"
-
