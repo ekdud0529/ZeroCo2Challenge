@@ -26,12 +26,6 @@ class community extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Fluttertoast.showToast(msg: '시간이 소요될 수 있습니다.',
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.grey,
-        fontSize: 20,
-        textColor: Colors.white,
-        toastLength: Toast.LENGTH_SHORT);
     getData(ref);
     return Scaffold(
       appBar: AppBar(

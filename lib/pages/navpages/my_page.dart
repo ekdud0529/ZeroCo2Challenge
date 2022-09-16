@@ -17,12 +17,12 @@ class MyPage extends StatelessWidget {
                     onPressed: () async {
                       await launchUrl(Uri.parse('https://cpoint.or.kr/'));
                     },
-                    child: Text("탄소포인트제"),
+                    child: Text("탄소중립 포인트"),
                     style: TextButton.styleFrom(
                       textStyle: const TextStyle(fontSize: 30),
                       backgroundColor: const Color(0xfff2a900),
                       primary: Colors.white,
-                      padding: EdgeInsets.all(30),
+                      padding: EdgeInsets.all(20),
                     ),
                   ),
                 ),
@@ -41,7 +41,7 @@ class MyPage extends StatelessWidget {
                     textStyle: const TextStyle(fontSize: 30),
                     backgroundColor: const Color(0xfff2a900),
                     primary: Colors.white,
-                    padding: EdgeInsets.all(30),
+                    padding: EdgeInsets.all(20),
                   ),
                 ),
               ]
