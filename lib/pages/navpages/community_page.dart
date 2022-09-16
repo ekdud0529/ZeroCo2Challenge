@@ -68,7 +68,7 @@ class community extends StatelessWidget {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.7,
+                                width: MediaQuery.of(context).size.width * 0.65,
                                 child: Text(
                                   _listValues[index],
                                   style: const TextStyle(
