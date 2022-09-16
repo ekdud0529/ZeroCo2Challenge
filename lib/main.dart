@@ -5,6 +5,7 @@ import 'pages/navpages/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'splash.dart';
 
 void main() async{
   // 플러터에서 firebase 사용을 위해선 메인메소드 내에서 비동기 방식으로 반드시
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: accountPage(),
+      home: Splash(),
     );
   }
 }
