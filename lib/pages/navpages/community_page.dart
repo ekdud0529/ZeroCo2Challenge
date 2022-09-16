@@ -23,8 +23,15 @@ Future<void> getData(ref) async {
 
 class community extends StatelessWidget {
   final ref = FirebaseDatabase.instance.ref('performance');
+
   @override
   Widget build(BuildContext context) {
+    Fluttertoast.showToast(msg: '시간이 소요될 수 있습니다.',
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.grey,
+        fontSize: 20,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_SHORT);
     getData(ref);
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +69,7 @@ class community extends StatelessWidget {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.6,
+                                width: MediaQuery.of(context).size.width * 0.65,
                                 child: Text(
                                   _listValues[index],
                                   style: const TextStyle(

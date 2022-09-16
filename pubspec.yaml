@@ -48,6 +48,7 @@ dependencies:
   flutter_clean_calendar: ^1.1.0
   table_calendar: ^3.0.0
   path_provider: ^2.0.2
+  url_launcher: ^6.1.5
   google_fonts:
   shared_preferences:
   font_awesome_flutter:
@@ -112,7 +113,7 @@ flutter:
 
 flutter_native_splash:
   color: "#f2a900"
-  image: "assets/icon.png"
+  backgound_image: "assets/icon.png"
   fullscreen: true
 
 # 만드는 명령어 flutter pub run flutter_launcher_icons:main
