@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zeroco">
    <application
-        android:label="zeroco"
+        android:label="제로탄소챌린지"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
